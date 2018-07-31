@@ -1,0 +1,9 @@
+{
+    "AircraftTypeResult": {
+        "manufacturer": "IAI",
+        "type": "Gulfstream G200",
+        "description": "twin-jet",
+        "engine_count": 2,
+        "engine_type": "jet"
+    }
+}

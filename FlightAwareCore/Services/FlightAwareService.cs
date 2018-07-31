@@ -26,7 +26,7 @@ namespace FlightAware.Services
 
             this.username = username;
             this.apiKey = apiKey;
-            this.httpClient = httpClient ?? new ZipHttpClient("http://flightxml.flightaware.com/json/FlightXML3");
+            this.httpClient = httpClient ?? new ZipHttpClient("https://flightxml.flightaware.com/json/FlightXML3");
         }
 
         public async Task AircraftType()
