@@ -313,3 +313,5 @@ __pycache__/
 *.pyc
 
 .vscode
+
+*.ps1

@@ -1,14 +1,19 @@
+using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading.Tasks;
+using Flurl;
 
 namespace FlightAware.Services
 {
     /// <summary>
-    /// An implementation of <see cref="IHttpClient"/> that uses <see
+    /// An implementation of <see cref="HttpClient"/> that uses <see
     /// cref="DecompressionMethods.GZip"/> and <see cref="DecompressionMethods.Deflate"/>.
     /// </summary>
-    public class ZipHttpClient : IHttpClient
+    public class ZipHttpClient
     {
         readonly string baseUri = string.Empty;
         static HttpClient client;
@@ -17,7 +22,7 @@ namespace FlightAware.Services
         /// Initializes a new instance of the <see cref="ZipHttpClient"/> class.
         /// </summary>
         /// <param name="baseUri">The root domain and URL for making requests.</param>
-        public ZipHttpClient(string baseUri)
+        public ZipHttpClient(string baseUri, string username, string apiKey)
         {
             this.baseUri = baseUri;
 
@@ -26,6 +31,9 @@ namespace FlightAware.Services
                 handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
             client = new HttpClient(handler);
+
+            var credentials = Encoding.ASCII.GetBytes(username + ":" + apiKey);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentials));
         }
 
         /// <summary>
@@ -36,10 +44,16 @@ namespace FlightAware.Services
         /// The actual URL after the root domain to make the request to.
         /// </param>
         /// <returns>The <see cref="HttpRequestMessage"/> from the URL.</returns>
-        public async Task<HttpResponseMessage> HttpRequest(string requestString)
+        public async Task<T> HttpRequest<T>(string endPoint, object values) where T : class
         {
-            client.BaseAddress = new System.Uri(baseUri);
-            return await client.GetAsync(requestString);
+            var serializer = new DataContractJsonSerializer(typeof(T));
+            var uriBuilder = new UriBuilder(baseUri);
+            var requestUrl = baseUri
+                                .AppendPathSegment(endPoint)
+                                .SetQueryParams(values);
+
+            var response = await client.GetStreamAsync(requestUrl);
+           return serializer.ReadObject(response) as T;
         }
     }
 }

@@ -1,11 +1,19 @@
 using System;
 using Xunit;
 using FlightAware.Services;
+using System.Net.Http;
+using System.IO;
+using System.Threading.Tasks;
+using Moq;
 
 namespace FlightAwareCore.Test
 {
     public class FlightAwareServiceUnitTests
     {
+        // readonly HttpResponseMessage _mockAircraftTypeResponse = new HttpResponseMessage
+        // {
+        //     Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/aircraft_type.json"))
+        // };
         [Fact]
         public void Constructor_With_Non_Empty_Parameters()
         {

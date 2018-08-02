@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using FlightAware.Models;
+using Flurl;
+using Newtonsoft.Json;
 
 namespace FlightAware.Services
 {
@@ -8,11 +13,9 @@ namespace FlightAware.Services
     /// </summary>
     public class FlightAwareService
     {
-        readonly string apiKey;
-        readonly string username;
-        readonly IHttpClient httpClient;
+        private readonly ZipHttpClient httpClient;
 
-        public FlightAwareService(string username, string apiKey, IHttpClient httpClient = null)
+        public FlightAwareService(string username, string apiKey)
         {
             if(string.IsNullOrWhiteSpace(username))
             {
@@ -23,15 +26,12 @@ namespace FlightAware.Services
             {
                 throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
             }
-
-            this.username = username;
-            this.apiKey = apiKey;
-            this.httpClient = httpClient ?? new ZipHttpClient("https://flightxml.flightaware.com/json/FlightXML3");
+            httpClient = new ZipHttpClient("https://flightxml.flightaware.com/json/FlightXML3", username, apiKey);
         }
 
-        public async Task AircraftType()
+        public async Task<AircraftTypeResponse> AircraftType(string aircraftType)
         {
-
+            return await httpClient.HttpRequest<AircraftTypeResponse>("AircraftType", new { type = aircraftType });
         }
 
         public async Task AirlineFlightSchedules()
