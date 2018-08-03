@@ -22,6 +22,8 @@ namespace FlightAware.Services
         /// Initializes a new instance of the <see cref="ZipHttpClient"/> class.
         /// </summary>
         /// <param name="baseUri">The root domain and URL for making requests.</param>
+        /// <param name="username">Flight Aware username for authentication.</param>
+        /// <param name="apiKey">Flight Aware API v3 API Key for authentication.</param>
         public ZipHttpClient(string baseUri, string username, string apiKey)
         {
             this.baseUri = baseUri;

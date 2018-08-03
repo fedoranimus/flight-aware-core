@@ -5,6 +5,6 @@ namespace FlightAware.Models
     [DataContract]
     public class AircraftTypeResponse {
         [DataMember(Name="AircraftTypeResult")]
-        public AircraftTypeResult AircraftType { get; set; }
+        public AircraftTypeStruct AircraftType { get; set; }
     }
 }

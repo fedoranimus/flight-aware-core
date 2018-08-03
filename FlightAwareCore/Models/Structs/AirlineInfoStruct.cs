@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 namespace FlightAware.Models
 {
     [DataContract]
-    public class AirlineInfoResult
+    public class AirlineInfoStruct
     {
         [DataMember(Name="name")]
         public string Name { get; set; }

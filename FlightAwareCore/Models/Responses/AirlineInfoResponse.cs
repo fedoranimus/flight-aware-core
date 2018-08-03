@@ -6,6 +6,6 @@ namespace FlightAware.Models
     public class AirlineInfoResponse 
     {
         [DataMember(Name="AirlineInfoResult")]
-        public AirlineInfoResult AirlineInfo { get; set; }
+        public AirlineInfoStruct AirlineInfo { get; set; }
     }
 }

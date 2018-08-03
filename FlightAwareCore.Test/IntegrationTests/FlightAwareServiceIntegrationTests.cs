@@ -9,8 +9,8 @@ namespace FlightAwareCore.Test
 {
     public class FlightAwareServiceIntegrationTests : IDisposable
     {
-        readonly string _apiEnvVar = "FAkey";
-        readonly string _usernameEnvVar = "FAuser";
+        readonly string _apiEnvVar = "FaKey";
+        readonly string _usernameEnvVar = "FaUser";
         private FlightAwareService _flightAwareService;
         public FlightAwareServiceIntegrationTests()
         {
