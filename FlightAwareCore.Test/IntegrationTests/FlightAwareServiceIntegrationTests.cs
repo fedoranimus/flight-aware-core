@@ -17,7 +17,7 @@ namespace FlightAwareCore.Test
             var config = new ConfigurationBuilder()
                                 .AddEnvironmentVariables()
                                 .Build();
-                                
+
             var apiKey = config.GetSection(_apiEnvVar).Value;
             Assert.False(string.IsNullOrEmpty(apiKey), $"You must set the environment variable {_apiEnvVar}");
             var userNameKey = config.GetSection(_usernameEnvVar).Value;
@@ -27,9 +27,9 @@ namespace FlightAwareCore.Test
 
         [Theory]
         [InlineData("GALX")]
-        public async Task AircraftType_Should_Return_Response(string acType)
+        public async Task AircraftType_Should_Return_Response(string aircraftType)
         {
-            var response = await _flightAwareService.AircraftType(acType);
+            var response = await _flightAwareService.AircraftType(aircraftType);
 
             Assert.NotNull(response.AircraftType);
             Assert.Equal("twin-jet", response.AircraftType.Description);
@@ -37,6 +37,17 @@ namespace FlightAwareCore.Test
             Assert.Equal("jet", response.AircraftType.EngineType);
             Assert.Equal("IAI", response.AircraftType.Manufacturer);
             Assert.Equal("Gulfstream G200", response.AircraftType.Type);
+        }
+
+        [Theory]
+        [InlineData("JBU")]
+        public async Task AirlineInfo_Should_Return_Response(string airlineCode)
+        {
+            var response = await _flightAwareService.AirlineInfo(airlineCode);
+
+            Assert.NotNull(response.AirlineInfo);
+            Assert.Equal("JetBlue Airways", response.AirlineInfo.Name);
+            Assert.Equal("JetBlue", response.AirlineInfo.CallSign);
         }
 
         public void Dispose()

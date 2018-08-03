@@ -13,7 +13,7 @@ namespace FlightAware.Services
     /// </summary>
     public class FlightAwareService
     {
-        private readonly ZipHttpClient httpClient;
+        private readonly ZipHttpClient client;
 
         public FlightAwareService(string username, string apiKey)
         {
@@ -26,12 +26,12 @@ namespace FlightAware.Services
             {
                 throw new ArgumentException($"{nameof(apiKey)} cannot be empty.");
             }
-            httpClient = new ZipHttpClient("https://flightxml.flightaware.com/json/FlightXML3", username, apiKey);
+            client = new ZipHttpClient("https://flightxml.flightaware.com/json/FlightXML3", username, apiKey);
         }
 
         public async Task<AircraftTypeResponse> AircraftType(string aircraftType)
         {
-            return await httpClient.HttpRequest<AircraftTypeResponse>("AircraftType", new { type = aircraftType });
+            return await client.HttpRequest<AircraftTypeResponse>("AircraftType", new { type = aircraftType });
         }
 
         public async Task AirlineFlightSchedules()
@@ -39,9 +39,9 @@ namespace FlightAware.Services
 
         }
 
-        public async Task AirlineInfo()
+        public async Task<AirlineInfoResponse> AirlineInfo(string airlineCode)
         {
-
+            return await client.HttpRequest<AirlineInfoResponse>("AirlineInfo", new { airline_code = airlineCode });
         }
 
         public async Task AirportBoards()
