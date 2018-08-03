@@ -2,7 +2,7 @@ using System.Runtime.Serialization;
 
 namespace FlightAware.Models
 {
-    [DataContract(Name="AircraftResult")]
+    [DataContract]
     public class AircraftTypeStruct
     {
         [DataMember(Name="manufacturer")]
