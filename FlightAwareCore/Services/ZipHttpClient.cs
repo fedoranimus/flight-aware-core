@@ -46,8 +46,9 @@ namespace FlightAware.Services
         /// The actual URL after the root domain to make the request to.
         /// </param>
         /// <returns>The <see cref="HttpRequestMessage"/> from the URL.</returns>
-        public async Task<T> HttpRequest<T>(string endPoint, object values) where T : class
+        public async Task<T> HttpRequest<T>(string endPoint, object values = null) where T : class
         {
+            values = values ?? new {};
             var serializer = new DataContractJsonSerializer(typeof(T));
             var uriBuilder = new UriBuilder(baseUri);
             var requestUrl = baseUri
