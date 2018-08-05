@@ -127,12 +127,14 @@ namespace FlightAware.Services
         }
 
         ///<summary>
-        /// 
+        /// A "cracked" list of noteworthy navigation points along the planned flight route. 
+        /// The list represents the originally planned route of travel, which may differ slightly from the actual flight path flown.
+        /// Not all flight routes can be successfully decoded by this function, particularly if the flight is not entirely within the continental U.S. airspace, since this function only has access to navaids within that area.
         ///</summary>
         ///<param name="flightId">FlightAware Flight Id</param>
-        public async Task DecodeFlightRoute(string flightId)
+        public async Task<DecodeRouteResponse> DecodeFlightRoute(string flightId)
         {
-            throw new NotImplementedException();
+            return await client.HttpRequest<DecodeRouteResponse>("DecodeFlightRoute", new { faFlightID = flightId });
         }
 
         ///<summary>
@@ -153,14 +155,38 @@ namespace FlightAware.Services
             });
         }
 
-        public async Task FindFlight()
+        public async Task<FindFlightResponse> FindFlight(string origin,
+                                    string destination,
+                                    bool includeExData = false, 
+                                    string filter = null,
+                                    FlightType type = FlightType.All,
+                                    int howMany = 15,
+                                    int offset = 0)
         {
-            throw new NotImplementedException();
+            return await client.HttpRequest<FindFlightResponse>("FindFlight", new {
+                origin = origin,
+                destination = destination,
+                include_ex_data = includeExData,
+                type = type,
+                filter = filter,
+                howMany = howMany,
+                offset = offset
+            });
         }
 
-        public async Task FlightCancellationStatistics()
+        public async Task<FlightCancellationStatisticsResponse> FlightCancellationStatistics(string timePeriod,
+                                                        AggregationCriteria typeMatching,
+                                                        string identFilter = null,
+                                                        int howMany = 15,
+                                                        int offset = 0)
         {
-            throw new NotImplementedException();
+            return await client.HttpRequest<FlightCancellationStatisticsResponse>("FlightCancellationStatistics", new {
+                time_period = timePeriod,
+                type_matching = typeMatching,
+                ident_filter = identFilter,
+                howMany = howMany,
+                offset = offset
+            });
         }
 
         ///<summary>
@@ -177,10 +203,10 @@ namespace FlightAware.Services
         ///<param name="howMany">Number of flights to fetch. Default: 15</param>
         ///<param name="offset">Offset for query. Default: 0</param>
         public async Task<FlightInfoStatusResponse> FlightInfoStatus(string ident, 
-                                            bool includeExData = false, 
-                                            string filter = null,
-                                            int howMany = 15,
-                                            int offset = 0)
+                                                                    bool includeExData = false, 
+                                                                    string filter = null,
+                                                                    int howMany = 15,
+                                                                    int offset = 0)
         {
             return await client.HttpRequest<FlightInfoStatusResponse>("FlightInfoStatus", new 
             {
@@ -192,9 +218,9 @@ namespace FlightAware.Services
             });
         }
 
-        public async Task GetFlightTrack()
+        public async Task<FlightTrackResponse> GetFlightTrack(string ident, bool includePositionEstimates = false)
         {
-            throw new NotImplementedException();
+            return await client.HttpRequest<FlightTrackResponse>("GetFlightTrack", new { ident = ident, include_position_estimates = includePositionEstimates });
         }
 
         public async Task LatLongsToDistance()
