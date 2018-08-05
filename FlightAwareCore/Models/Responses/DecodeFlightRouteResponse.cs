@@ -4,14 +4,14 @@ using System.Runtime.Serialization;
 namespace FlightAware.Models
 {
     [DataContract]
-    public class DecodeRouteResponse
+    public class DecodeFlightRouteResponse
     {
-        [DataMember(Name="DecodeRouteResult")]
-        public DecodeRouteResult Result { get; set; }
+        [DataMember(Name="DecodeFlightRouteResult")]
+        public DecodeFlightRouteResult Result { get; set; }
     }
 
     [DataContract]
-    public class DecodeRouteResult
+    public class DecodeFlightRouteResult
     {
         [DataMember(Name="data")]
         public IEnumerable<FlightRouteStruct> Data { get; set; }

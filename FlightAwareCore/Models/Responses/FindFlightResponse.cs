@@ -6,6 +6,13 @@ namespace FlightAware.Models
     [DataContract]
     public class FindFlightResponse
     {
+        [DataMember(Name="FindFlightResult")]
+        public FindFlightResult Results { get; set; }
+    }
+
+    [DataContract]
+    public class FindFlightResult
+    {
         [DataMember(Name="next_offset")]
         public int NextOffset { get; set; }
 

@@ -5,7 +5,7 @@ namespace FlightAware.Models
     [DataContract]
     public class ZipCodeInfoResponse
     {
-        [DataMember(Name="ZipCodeInfoResult")]
+        [DataMember(Name="ZipcodeInfoResult")]
         public ZipCodeInfoStruct ZipCodeInfo { get; set; }
     }
 }

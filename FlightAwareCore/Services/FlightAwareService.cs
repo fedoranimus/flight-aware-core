@@ -71,7 +71,7 @@ namespace FlightAware.Services
         public async Task<AirportBoardsResponse> AirportBoards(string airportCode, 
                                                                 bool includeExData = false, 
                                                                 string filter = null,
-                                                                FlightType type = FlightType.All,
+                                                                FlightStatus type = FlightStatus.All,
                                                                 int howMany = 15,
                                                                 int offset = 0)
         {
@@ -79,7 +79,7 @@ namespace FlightAware.Services
                 airport_code = airportCode,
                 include_ex_data = includeExData,
                 filter = filter,
-                type = type.ToString(),
+                type = Enum.GetName(typeof(FlightStatus), type).ToLower(),
                 howMany = howMany,
                 offset = offset
             });
@@ -132,9 +132,9 @@ namespace FlightAware.Services
         /// Not all flight routes can be successfully decoded by this function, particularly if the flight is not entirely within the continental U.S. airspace, since this function only has access to navaids within that area.
         ///</summary>
         ///<param name="flightId">FlightAware Flight Id</param>
-        public async Task<DecodeRouteResponse> DecodeFlightRoute(string flightId)
+        public async Task<DecodeFlightRouteResponse> DecodeFlightRoute(string flightId)
         {
-            return await client.HttpRequest<DecodeRouteResponse>("DecodeFlightRoute", new { faFlightID = flightId });
+            return await client.HttpRequest<DecodeFlightRouteResponse>("DecodeFlightRoute", new { faFlightID = flightId });
         }
 
         ///<summary>
@@ -149,7 +149,7 @@ namespace FlightAware.Services
         {
             return await client.HttpRequest<DecodeRouteResponse>("DecodeRoute", new 
             { 
-                origin = originAirportCode, 
+                origin = originAirportCode,
                 route = route, 
                 destination = destinationAirportCode
             });
@@ -159,7 +159,7 @@ namespace FlightAware.Services
                                     string destination,
                                     bool includeExData = false, 
                                     string filter = null,
-                                    FlightType type = FlightType.All,
+                                    FlightType type = FlightType.Auto,
                                     int howMany = 15,
                                     int offset = 0)
         {
@@ -167,7 +167,7 @@ namespace FlightAware.Services
                 origin = origin,
                 destination = destination,
                 include_ex_data = includeExData,
-                type = type,
+                type = Enum.GetName(typeof(FlightType), type).ToLower(),
                 filter = filter,
                 howMany = howMany,
                 offset = offset
@@ -182,7 +182,7 @@ namespace FlightAware.Services
         {
             return await client.HttpRequest<FlightCancellationStatisticsResponse>("FlightCancellationStatistics", new {
                 time_period = timePeriod,
-                type_matching = typeMatching,
+                type_matching = Enum.GetName(typeof(AggregationCriteria), typeMatching).ToLower(),
                 ident_filter = identFilter,
                 howMany = howMany,
                 offset = offset
@@ -247,7 +247,7 @@ namespace FlightAware.Services
         /// Information about the owner of an aircraft, given a flight number or N-number.
         /// Codeshares and alternate idents are automatically searched.
         ///</summary>
-        ///<param name="ident">Flight number of N-number.</param>
+        ///<param name="ident">Flight number or N-number.</param>
         public async Task<TailOwnerResponse> TailOwner(string ident)
         {
             

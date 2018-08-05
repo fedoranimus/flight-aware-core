@@ -6,8 +6,10 @@ namespace FlightAware.Models
     [DataContract]
     public class Timestamp 
     {
+        public DateTimeOffset? Epoch => EpochUnix?.ToDateTimeOffsetFromUnixTimestamp();
+
         [DataMember(Name="epoch")]
-        public DateTime? Epoch { get; set; }
+        internal long? EpochUnix { get; set; }
         [DataMember(Name="tz")]
         public string Tz { get; set; }
         [DataMember(Name="dow")]
@@ -17,6 +19,7 @@ namespace FlightAware.Models
         [DataMember(Name="date")]
         public string Date { get; set; }
         [DataMember(Name="localtime")]
-        public DateTime? LocalTime { get; set; }
+        internal long? LocalUnix { get; set; }
+        public DateTimeOffset? LocalTime => LocalUnix?.ToDateTimeOffsetFromUnixTimestamp();
     }
 }

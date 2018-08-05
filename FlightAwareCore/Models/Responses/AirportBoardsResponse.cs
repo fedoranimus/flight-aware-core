@@ -5,6 +5,13 @@ namespace FlightAware.Models
     [DataContract]
     public class AirportBoardsResponse
     {
+        [DataMember(Name="AirportBoardsResult")]
+        public AirportBoardsResult Results { get; set; }
+    }
+
+    [DataContract]
+    public class AirportBoardsResult
+    {
         [DataMember(Name="airport")]
         public string Airport { get; set; }
 

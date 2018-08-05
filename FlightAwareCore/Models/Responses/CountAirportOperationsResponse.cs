@@ -6,6 +6,6 @@ namespace FlightAware.Models
     public class CountAirportOperationsResponse
     {
         [DataMember(Name="CountAirportOperationsResult")]
-        public CountAirportOperationsResponse Operations { get; set; }
+        public CountAirportOperationsStruct Operations { get; set; }
     }
 }

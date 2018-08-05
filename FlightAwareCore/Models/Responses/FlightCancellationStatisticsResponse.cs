@@ -5,7 +5,7 @@ namespace FlightAware.Models
     [DataContract]
     public class FlightCancellationStatisticsResponse
     {
-        [DataMember]
-        public CancellationSummaryStruct CancellationSummary { get; set; }
+        [DataMember(Name="FlightCancellationStatisticsResult")]
+        public CancellationSummaryStruct Results { get; set; }
     }
 }
