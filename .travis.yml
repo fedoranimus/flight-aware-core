@@ -1,0 +1,10 @@
+language: csharp
+mono: none
+dotnet: 2.1.300
+branches:
+  only:
+    - master
+before_script: cd FlightAwareCore.Test
+script:
+  - dotnet restore
+  - dotnet test
